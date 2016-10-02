@@ -6,7 +6,7 @@ import (
 	"runtime"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/docker/docker/client"
+	"github.com/docker/engine-api/client"
 	"github.com/maliceio/go-plugin-utils/utils"
 	"github.com/maliceio/malice/config"
 	er "github.com/maliceio/malice/malice/errors"

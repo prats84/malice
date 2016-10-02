@@ -9,7 +9,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	log "github.com/Sirupsen/logrus"
-	"github.com/docker/docker/api/types/strslice"
+	"github.com/docker/engine-api/types/strslice"
 	runconfigopts "github.com/docker/docker/runconfig/opts"
 	"github.com/maliceio/malice/config"
 	"github.com/maliceio/malice/malice/docker/client"
