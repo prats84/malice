@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine:3.4
+FROM gliderlabs/alpine:edge
 
 MAINTAINER blacktop, https://github.com/blacktop
 
@@ -10,7 +10,7 @@ RUN apk-install -t build-deps go git mercurial build-base file-dev \
   && cd /go/src/github.com/maliceio/malice \
   && export GOPATH=/go \
   && go version \
-  && go get \
+  && go get -v \
   && go build -ldflags "-X main.Version=$(cat VERSION) -X main.BuildTime=$(date -u +%Y%m%d)" -o /bin/malice \
   && echo "Copy malice config files..." \
   && mkdir /malice \
