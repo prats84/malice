@@ -1,8 +1,8 @@
-package main
+package api
 
 import "net/http"
 
-// Route is a http API route
+// Route api route
 type Route struct {
 	Name        string
 	Method      string
@@ -10,7 +10,7 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
-// Routes is an array of Route objects
+// Routes route array
 type Routes []Route
 
 var routes = Routes{
@@ -21,15 +21,39 @@ var routes = Routes{
 		Index,
 	},
 	Route{
-		"MaliceScan",
+		"APIFileScan",
 		"POST",
-		"/scan",
-		MaliceScan,
+		"/file/scan",
+		APIFileScan,
 	},
 	Route{
-		"MaliceLookUp",
-		"GET",
-		"/lookup/{hashOrURL}",
-		MaliceLookUp,
+		"APIIntelLookup",
+		"POST",
+		"/intel/lookup/{hash}",
+		APIIntelLookup,
+	},
+	Route{
+		"APIPluginList",
+		"POST",
+		"/plugin/list",
+		APIPluginList,
+	},
+	Route{
+		"APIPluginInstall",
+		"POST",
+		"/plugin/install",
+		APIPluginInstall,
+	},
+	Route{
+		"APIPluginRemove",
+		"POST",
+		"/plugin/remove",
+		APIPluginRemove,
+	},
+	Route{
+		"APIPluginUpdate",
+		"POST",
+		"/plugin/update",
+		APIPluginUpdate,
 	},
 }

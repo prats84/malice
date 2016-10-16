@@ -46,10 +46,15 @@ var Commands = []cli.Command{
 				Name:  "logs",
 				Usage: "Display the Logs of the Plugin containers",
 			},
+			cli.BoolFlag{
+				Name:  "json",
+				Usage: "Output lookup results as JSON",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			if c.Args().Present() {
-				return cmdLookUp(c.Args().First(), c.Bool("logs"))
+				_, err := cmdLookUp(c.Args().First(), c.Bool("json"), c.Bool("logs"))
+				return err
 			}
 			log.Error("Please supply a MD5/SHA1 hash to query.")
 
@@ -68,31 +73,31 @@ var Commands = []cli.Command{
 		},
 		Action: func(c *cli.Context) error { return cmdELK(c.Bool("logs")) },
 	},
-	// {
-	// 	Name:  "web",
-	// 	Usage: "Start, Stop Web services",
-	// 	Subcommands: []cli.Command{
-	// 		{
-	// 			Name:   "start",
-	// 			Usage:  "start web application",
-	// 			Action: func(c *cli.Context) error { return cmdWebStart() },
-	// 		},
-	// 		{
-	// 			Name:   "stop",
-	// 			Usage:  "stop web application",
-	// 			Action: func(c *cli.Context) error { return cmdWebStop() },
-	// 		},
-	// 	},
-	// 	BashComplete: func(c *cli.Context) {
-	// 		// This will complete if no args are passed
-	// 		if len(c.Args()) > 0 {
-	// 			return
-	// 		}
-	// 		for _, t := range tasks {
-	// 			fmt.Println(t)
-	// 		}
-	// 	},
-	// },
+	{
+		Name:  "web",
+		Usage: "Start, Stop Web services",
+		Subcommands: []cli.Command{
+			{
+				Name:   "start",
+				Usage:  "start web application",
+				Action: func(c *cli.Context) error { return cmdWebStart() },
+			},
+			{
+				Name:   "stop",
+				Usage:  "stop web application",
+				Action: func(c *cli.Context) error { return cmdWebStop() },
+			},
+		},
+		BashComplete: func(c *cli.Context) {
+			// This will complete if no args are passed
+			if len(c.Args()) > 0 {
+				return
+			}
+			for _, t := range tasks {
+				fmt.Println(t)
+			}
+		},
+	},
 	{
 		Name:  "plugin",
 		Usage: "List, Install or Remove Plugins",

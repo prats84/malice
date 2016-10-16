@@ -13,18 +13,18 @@ import (
 
 // Plugin represents a single plugin setting.
 type Plugin struct {
-	Name        string   `toml:"name"`
-	Enabled     bool     `toml:"enabled"`
-	Category    string   `toml:"category"`
-	Description string   `toml:"description"`
-	Image       string   `toml:"image"`
-	Repository  string   `toml:"repository"`
-	Build       bool     `toml:"build"`
-	APIKey      string   `toml:"apikey"`
-	Mime        string   `toml:"mime"`
-	HashTypes   []string `toml:"hashtypes"`
-	Cmd         string   `toml:"cmd"`
-	Env         []string `toml:"env"`
+	Name        string   `toml:"name" json:"name"`
+	Enabled     bool     `toml:"enabled" json:"enabled"`
+	Category    string   `toml:"category" json:"category"`
+	Description string   `toml:"description" json:"description"`
+	Image       string   `toml:"image" json:"image"`
+	Repository  string   `toml:"repository" json:"repository"`
+	Build       bool     `toml:"build" json:"build"`
+	APIKey      string   `toml:"apikey" json:"apikey"`
+	Mime        string   `toml:"mime" json:"mime"`
+	HashTypes   []string `toml:"hashtypes" json:"hashtypes"`
+	Cmd         string   `toml:"cmd" json:"cmd"`
+	Env         []string `toml:"env" json:"env"`
 	Installed   bool
 }
 

@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"net/http"
@@ -21,6 +21,7 @@ func NewRouter() *mux.Router {
 			Path(route.Pattern).
 			Name(route.Name).
 			Handler(handler)
+
 	}
 
 	return router

@@ -9,12 +9,11 @@ title = "Malice Runtime Configuration"
 
 [author]
   name = "blacktop"
-  # organization = "GitHub"
-  # bio = "GitHub Cofounder & CEO\nLikes tater tots and beer."
-  # dob = 1979-05-27T07:32:00Z # First class dates? Why not?
+  organization = "The Blacktop Company"
 
 [web]
   url = "0.0.0.0:80"
+  api = ":3993"
   admin_url = "127.0.0.1:3333"
 
 [email]

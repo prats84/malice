@@ -2,11 +2,13 @@ package commands
 
 import (
 	log "github.com/Sirupsen/logrus"
+	"github.com/maliceio/malice/api"
 	"github.com/maliceio/malice/config"
 )
 
 func cmdWebStart() error {
 
+	api.StartAPI()
 	// Setup the global variables and settings
 	// err := models.Setup()
 	// if err != nil {

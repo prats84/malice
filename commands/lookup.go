@@ -13,7 +13,7 @@ import (
 	"github.com/maliceio/malice/utils"
 )
 
-func cmdLookUp(hash string, logs bool) error {
+func cmdLookUp(hash string, jsonOut bool, logs bool) (string, error) {
 
 	docker := client.NewDockerClient()
 
@@ -50,12 +50,16 @@ func cmdLookUp(hash string, logs bool) error {
 	// Write hash to the Database
 	resp := elasticsearch.WriteHashToDatabase(hash)
 
-	plugins.RunIntelPlugins(docker, hash, resp.Id, true)
+	plugins.RunIntelPlugins(docker, hash, resp.Id, logs)
 
-	return nil
+	if jsonOut {
+		return elasticsearch.GetHash(resp.Id)
+	}
+
+	return "", nil
 }
 
 // APILookUp is an API wrapper for cmdLookUp
-func APILookUp(hash string) error {
-	return cmdLookUp(hash, false)
+func APILookUp(hash string) (string, error) {
+	return cmdLookUp(hash, true, false)
 }

@@ -35,6 +35,7 @@ type authorInfo struct {
 
 type webConfig struct {
 	URL      string
+	API      string
 	AdminURL string `toml:"admin_url"`
 }
 

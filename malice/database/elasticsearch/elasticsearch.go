@@ -203,6 +203,33 @@ func WriteHashToDatabase(hash string) elastic.IndexResponse {
 	return *newScan
 }
 
+// GetHash retrieves lookup results
+func GetHash(scanID string) (string, error) {
+
+	// scanID := utils.Getopt("MALICE_SCANID", "")
+	if ElasticAddr == "" {
+		ElasticAddr = fmt.Sprintf("http://%s:9200", utils.Getopt("MALICE_ELASTICSEARCH", "elastic"))
+	}
+
+	client, err := elastic.NewSimpleClient(elastic.SetURL(ElasticAddr))
+	utils.Assert(err)
+
+	getSample, err := client.Get().
+		Index("malice").
+		Type("samples").
+		Id(scanID).
+		Do()
+
+	if err != nil {
+		return "", err
+	}
+
+	if getSample != nil && getSample.Found {
+		return "", err
+	}
+	return "", err
+}
+
 // WritePluginResultsToDatabase upserts plugin results into Database
 func WritePluginResultsToDatabase(results PluginResults) {
 
