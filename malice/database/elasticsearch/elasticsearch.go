@@ -16,7 +16,7 @@ import (
 	"github.com/maliceio/malice/malice/docker/client"
 	"github.com/maliceio/malice/malice/docker/client/container"
 	er "github.com/maliceio/malice/malice/errors"
-	elastic "gopkg.in/olivere/elastic.v3"
+	elastic "gopkg.in/olivere/elastic.v5"
 )
 
 // PluginResults a malice plugin results object
@@ -69,7 +69,7 @@ func StartELK(docker *client.Docker, logs bool) (types.ContainerJSONBase, error)
 		log.Debug("ELK is now online.")
 
 		// Even though it's up it's not ready to index data yet.
-		log.Info("Sleeping for 10 seconds to give blacktop/elk time to initalize.")
+		log.Infof("Sleeping for 10 seconds to give %s time to initalize.", config.Conf.DB.Image)
 		time.Sleep(10 * time.Second)
 
 		return cont, err
@@ -85,8 +85,8 @@ func InitElasticSearch(addr string) error {
 
 	client, err := elastic.NewSimpleClient(elastic.SetURL(ElasticAddr))
 	utils.Assert(err)
-
-	exists, err := client.IndexExists("malice").Do()
+	index := []string{"malice"}
+	exists := client.IndexExists(index...).Do()
 	utils.Assert(err)
 
 	if !exists {
