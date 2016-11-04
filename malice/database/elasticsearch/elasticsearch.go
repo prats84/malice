@@ -153,7 +153,7 @@ func WriteFileToDatabase(sample map[string]interface{}) elastic.IndexResponse {
 	newScan, err := client.Index().
 		Index("malice").
 		Type("samples").
-		OpType("create").
+		OpType("index").
 		// Id("1").
 		BodyJson(scan).
 		Do(context.Background())
