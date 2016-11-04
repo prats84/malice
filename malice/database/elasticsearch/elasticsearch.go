@@ -1,6 +1,7 @@
 package elasticsearch
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -85,13 +86,13 @@ func InitElasticSearch(addr string) error {
 
 	client, err := elastic.NewSimpleClient(elastic.SetURL(ElasticAddr))
 	utils.Assert(err)
-	index := []string{"malice"}
-	exists := client.IndexExists(index...).Do()
+
+	exists, err := client.IndexExists("malice").Do(context.Background())
 	utils.Assert(err)
 
 	if !exists {
 		// Index does not exist yet.
-		createIndex, err := client.CreateIndex("malice").BodyString(mapping).Do()
+		createIndex, err := client.CreateIndex("malice").BodyString(mapping).Do(context.Background())
 		utils.Assert(err)
 		if !createIndex.Acknowledged {
 			// Not acknowledged
@@ -120,7 +121,7 @@ func TestConnection(addr string) error {
 	client, err := elastic.NewSimpleClient(elastic.SetURL(ElasticAddr))
 
 	// Ping the Elasticsearch server to get e.g. the version number
-	info, code, err := client.Ping(ElasticAddr).Do()
+	info, code, err := client.Ping(ElasticAddr).Do(context.Background())
 	utils.Assert(err)
 
 	log.WithFields(log.Fields{
@@ -155,7 +156,7 @@ func WriteFileToDatabase(sample map[string]interface{}) elastic.IndexResponse {
 		OpType("create").
 		// Id("1").
 		BodyJson(scan).
-		Do()
+		Do(context.Background())
 	utils.Assert(err)
 
 	log.WithFields(log.Fields{
@@ -191,7 +192,7 @@ func WriteHashToDatabase(hash string) elastic.IndexResponse {
 		OpType("create").
 		// Id("1").
 		BodyJson(scan).
-		Do()
+		Do(context.Background())
 	utils.Assert(err)
 
 	log.WithFields(log.Fields{
@@ -218,7 +219,7 @@ func WritePluginResultsToDatabase(results PluginResults) {
 		Index("malice").
 		Type("samples").
 		Id(results.ID).
-		Do()
+		Do(context.Background())
 
 	if err != nil {
 
@@ -236,7 +237,7 @@ func WritePluginResultsToDatabase(results PluginResults) {
 		}
 		update, err := client.Update().Index("malice").Type("samples").Id(getSample.Id).
 			Doc(updateScan).
-			Do()
+			Do(context.Background())
 		utils.Assert(err)
 
 		log.WithFields(log.Fields{
@@ -265,7 +266,7 @@ func WritePluginResultsToDatabase(results PluginResults) {
 			OpType("create").
 			// Id("1").
 			BodyJson(scan).
-			Do()
+			Do(context.Background())
 		utils.Assert(err)
 
 		log.WithFields(log.Fields{
